@@ -526,8 +526,9 @@ create_query([{fields, Fields}|Options], QueryRec, QueryDoc, OptDoc) ->
 	QueryRec1 = QueryRec#emo_query{field_selector=[{Field, 1} || Field <- Fields]},
 	create_query(Options, QueryRec1, QueryDoc, OptDoc);
 
-create_query([{ignoredfields, Fields}|Options], QueryRec, QueryDoc, OptDoc) ->
-	QueryRec1 = QueryRec#emo_query{field_selector=[{Field, 0} || Field <- Fields]},
+create_query([{fieldsnotid, Fields}|Options], QueryRec, QueryDoc, OptDoc) ->
+    FieldsWithoutId = [{"_id", 0} | [{Field, 1} || Field <- Fields]],
+    QueryRec1 = QueryRec#emo_query{field_selector=FieldsWithoutId},
 	create_query(Options, QueryRec1, QueryDoc, OptDoc);
 
 	
